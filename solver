@@ -1,0 +1,385 @@
+<html>
+<head>
+<script>
+
+///////////////////INITIAL DATA FOR DE-DIAGONALIZED GRID//////////////////
+
+dgd=[
+[1,2,3,7,8,9,4,5,6],
+[7,8,9,4,5,6,1,2,3],
+[4,5,6,1,2,3,7,8,9],
+[6,1,2,3,7,8,9,4,5],
+[9,4,5,6,1,2,3,7,8],
+[3,7,8,9,4,5,6,1,2],
+[5,6,1,2,3,7,8,9,4],
+[8,9,4,5,6,1,2,3,7],
+[2,3,7,8,9,4,5,6,1]
+];
+
+//////////////////////////END OF DATA//////////////////////////////////////
+
+
+
+/////////////////////DRAWS THE SUDOKU GRID/////////////////////////////////
+
+function drawDiagoduko(arr) {
+for (i=0;i<9;i++) {
+for (j=0;j<9;j++) document.write(arr[i][j]+" ");
+document.write("<br>");
+}
+document.write("<br>");
+}
+
+////////////////////////END OF DRAW ROUTINE////////////////////////////////
+
+
+
+////////////////////CHECK FOR DIAGONALS BEING UNALIGNED////////////////////
+
+function checkDiagonals(arr) {
+for (i=0;i<8;i++) {
+j=-1;
+while (j++<7) {
+if (arr[i][j]==arr[i+1][j+1]) {alert("Diagonal \\ at "+(j+1)+", "+(i+1));break;}
+if (arr[i][j+1]==arr[i+1][j]) {alert("Diagonal \/ at "+(j+2)+", "+(i+1));break;}
+}}}
+
+function checkDiagonalsQ(arr) {
+retVal=true;
+for (i=0;i<8;i++) {
+j=-1;
+while (j++<7) {
+if (arr[i][j]==arr[i+1][j+1]) {retVal=false;break;}
+if (arr[i][j+1]==arr[i+1][j]) {retVal=false;break;}
+}}
+return retVal;
+}
+
+//////////////////////END OF DIAGONAL CHECKS/////////////////////////////////
+
+
+
+
+/////////////////BASIC CHECKS FOR ROWS, COLUMNS AND BLOCKS///////////////////
+
+
+function checkSudoku(arr) {
+e=new Array();
+ec=0;
+checkHorz(arr);
+checkVert(arr);
+checkBlock(arr);
+if (ec>0) alert(e.join("")+ec);
+checkXoox(arr);
+}
+
+function checkHorz(arr2) {
+a=new Array();
+for (i=0;i<9;i++) {
+for (j=0;j<9;j++) a[j]=arr2[i][j];
+b=a.sort(function(a,b) {return a-b;});
+for (j=0;j<8;j++) if (b[j]==b[j+1]) e[ec++]="Horizontal Row : "+(i+1)+"\n";
+}}
+
+function checkVert(arr2) {
+a=new Array();
+for (i=0;i<9;i++) {
+for (j=0;j<9;j++) a[j]=arr2[j][i];
+b=a.sort(function(a,b) {return a-b;});
+for (j=0;j<8;j++) if (b[j]==b[j+1]) e[ec++]="Vertical Column : "+(i+1)+"\n";
+}}
+
+function checkBlock(arr2) {
+a=new Array();
+for (i=0;i<3;i++)
+for (j=0;j<3;j++) {
+for (k=0;k<3;k++) for (l=0;l<3;l++) a[k*3+l]=arr2[i*3+k][j*3+l];
+b=a.sort(function(a,b) {return a-b;});
+for (d=0;d<8;d++) if (b[d]==b[d+1]) e[ec++]="Block : "+(i+1)+" , "+(j+1)+"\n";
+}}
+
+function checkXoox(arr2) {
+x=new Array();
+xc=0;
+for (i=0;i<8;i++)
+for (j=0;j<8;j++)
+for (k=i+1;k<9;k++)
+for (m=j+1;m<9;m++)
+if (arr2[i][j]==arr2[k][m] && arr2[i][m]==arr2[k][j]) {
+x[xc++]="Xoox at "+(i+1)+", "+(j+1)+" with "+(k+1)+", "+(m+1)+"\n";}
+if (xc>0) alert(x.join("")+xc);
+}
+
+
+///////////////////////////END BASIC CHECKS////////////////////////////////
+
+
+
+//////////////////////BASIC SUDOKU PUZZLE MAKER////////////////////////////
+
+function makeGame() {
+success=false;
+while (!success) {
+ds=new Array();
+for (i=0;i<9;i++) ds[i]=dgd[i];
+
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+ds=digitSwap(Math.floor(Math.random()*9)+1,Math.floor(Math.random()*9)+1,ds);
+
+if (Math.random()<=0.5) ds=flipOverH(ds);
+if (Math.random()<=0.5) ds=flipOverV(ds);
+
+if (Math.random()<=0.15) ds=rotate(ds);
+if (Math.random()<=0.25) ds=rotate(ds);
+if (Math.random()<=0.35) ds=rotate(ds);
+if (Math.random()<=0.45) ds=rotate(ds);
+if (Math.random()<=0.55) ds=rotate(ds);
+if (Math.random()<=0.65) ds=rotate(ds);
+if (Math.random()<=0.75) ds=rotate(ds);
+if (Math.random()<=0.85) ds=rotate(ds);
+if (Math.random()<=0.95) ds=rotate(ds);
+
+if (Math.random()<=0.5) ds=flipOverH(ds);
+if (Math.random()<=0.5) ds=flipOverV(ds);
+
+if (Math.random()<=0.5) ds=swapRow(ds,0,1);
+if (Math.random()<=0.5) ds=swapRow(ds,7,8);
+if (Math.random()<=0.5) ds=swapColumn(ds,0,1);
+if (Math.random()<=0.5) ds=swapColumn(ds,7,8);
+
+success=checkDiagonalsQ(ds);
+}
+
+drawDiagoduko(ds);
+checkDiagonals(ds);
+checkSudoku(ds);
+return ds;
+}
+
+function selectCells(arr) {
+c=new Array();
+for (i=0;i<9;i++) c[i]=["_","_","_","_","_","_","_","_","_"];
+
+size=40; // number of initials cell given
+
+gc=0;
+while (gc<size) {
+p1=Math.floor(Math.random()*9);
+p2=Math.floor(Math.random()*9);
+if (c[p1][p2]=="_") {gc++;c[p1][p2]=ds[p1][p2];}
+}
+return c;
+}
+
+//////////////////////END OF SUDOKU MAKER/////////////////////////////////
+
+
+
+////////////////////////SUDOKU GRID MANIPULATIONS/////////////////////////
+
+function digitSwap(n1,n2,arr) {
+a=new Array();
+for (i=0;i<9;i++) a[i]=arr[i];
+for (i=0;i<9;i++) for (j=0;j<9;j++) if (a[i][j]==n1) a[i][j]=0;
+for (i=0;i<9;i++) for (j=0;j<9;j++) if (a[i][j]==n2) a[i][j]=n1;
+for (i=0;i<9;i++) for (j=0;j<9;j++) if (a[i][j]==0) a[i][j]=n2;
+return a;
+}
+
+function flipOverH(arr) {
+arr.reverse();
+return arr;
+}
+
+function flipOverV(arr) {
+for (i=0;i<9;i++) arr[i].reverse();
+return arr;
+}
+
+function rotate(arr) {
+a=new Array();
+b=new Array();
+for (i=0;i<9;i++) a[i]=arr[i];
+for (i=0;i<9;i++) b[i]=[0,0,0,0,0,0,0,0,0];
+for (i=0;i<9;i++) for (j=0;j<9;j++) b[j][8-i]=a[i][j];
+arr=b;
+return arr;
+}
+
+function swapRow(arr,r1,r2) {
+a=new Array();
+b=new Array();
+for (i=0;i<9;i++) a[i]=arr[r1][i];
+for (i=0;i<9;i++) b[i]=arr[r2][i];
+for (i=0;i<9;i++) arr[r1][i]=b[i];
+for (i=0;i<9;i++) arr[r2][i]=a[i];
+return arr;
+}
+
+function swapColumn(arr,c1,c2) {
+a=new Array();
+b=new Array();
+for (i=0;i<9;i++) a[i]=arr[i][c1];
+for (i=0;i<9;i++) b[i]=arr[i][c2];
+for (i=0;i<9;i++) arr[i][c1]=b[i];
+for (i=0;i<9;i++) arr[i][c2]=a[i];
+return arr;
+}
+
+////////////////////END OF SUDOKU GRID MANIPULATIONS//////////////////////
+
+
+/////////////////////////MAIN CODE////////////////////////////////////////
+
+gameCore=makeGame();
+game=selectCells(gameCore);
+
+/////////////////////////END OF MAIN CODE////////////////////////////////
+
+
+
+////////////////////////FORMAT PUZZLE ROUTINES///////////////////////////
+
+for (i=0;i<9;i++) {
+for (j=0;j<9;j++)
+document.write("<input type=\"text\" size=1 value="+(game[i][j]=="_"?" ":game[i][j])+">");
+document.write("<br>");
+}
+document.write("<br>");
+
+
+////////////////////END OF FORMAT PUZZLE ROUTINES////////////////////////
+
+
+
+/////////         ////////////         ///////////////        ///////////
+
+
+
+///////////////////////////SOLUTION ROUTINES//////////////////////////////
+
+
+
+/////////////////////////COMPLETELY UN-SOLVED GRID///////////////////////
+
+s=new Array();
+for (i=0;i<9;i++) {
+s[i]=new Array();
+for (j=0;j<9;j++) s[i][j]=[1,2,3,4,5,6,7,8,9];
+}
+
+/////////////////////END OF COMPLETELY UN-SOLVED GRID////////////////////
+
+
+
+////////////////////////FILL IN WITH 'GAME' DATA/////////////////////////
+
+for (i=0;i<9;i++)
+for (j=0;j<9;j++) if (game[i][j]!="_") s[i][j]=[game[i][j]];
+
+////////////////////END OF FILL IN WITH 'GAME' DATA//////////////////////
+
+
+
+/////////////////////////////SOLUTION FUNCTIONS//////////////////////////
+
+function checkLine(ln) {
+lc=0;
+for (i=0;i<9;i++) if (s[ln][i].length>1) {lc++;sp=i;}
+if (lc>1) return false;
+if (lc==0) return false;
+s[ln][sp]=gameCore[ln][sp];
+return true;
+}
+
+function checkRow(rw) {
+lc=0;
+for (i=0;i<9;i++) if (s[i][rw].length>1) {lc++;sp=i;}
+if (lc>1) return false;
+if (lc==0) return false;
+s[sp][rw]=gameCore[sp][rw];
+return true;
+}
+
+function checkGrid(gx,gy) {
+lc=0;
+for (i=0;i<3;i++) for (j=0;j<3;j++) if (s[gy*3+j][gx*3+i].length>1) {lc++;spi=i;spj=j;}
+if (lc>1) return false;
+if (lc==0) return false;
+s[gy*3+spj][gx*3+spi]=gameCore[gy*3+spj][gx*3+spi];
+return true;
+}
+
+function zapCell(zx,zy) {
+x=new Array();
+xc=0;
+c=false;
+if (s[zy][zx].length>1) {
+for (i=0;i<9;i++) if (i!=zy && s[zy][i].length==1) {s[zy][zx][s[zy][i]-1]=0;c=true;}
+for (i=0;i<9;i++) if (i!=zx && s[i][zx].length==1) {s[zy][zx][s[i][zx]-1]=0;c=true;}
+gx=(zx-zx%3)/3;gy=(zy-zy%3)/3;
+for (i=0;i<3;i++) for (j=0;j<3;j++)
+if (i!=zx%3 && j!=zy%3 && s[gy+j][gx+i].length==1) {s[zy][zx][s[gy+j][gx+i]-1]=0;c=true;}
+
+if (zx>0 && zy>0 && zx<8 && zy<8)
+for (i=-1;i<2;i+=2) for (j=-1;j<2;j+=2) 
+if (s[zy+j][zx+i].length==1) {s[zy][zx][s[zy+j][zx+i]-1]=0;c=true;}
+}
+
+zc=0;
+nd=0;
+for (i=0;i<9;i++) if (s[zy][zx][i]==0) zc++; else nd=i+1;
+
+if (zc==8) {
+s[zy][zx]=[nd];
+x[xc++]="Found "+(zx+1)+", "+(zy+1)+" = "+nd;
+}
+//if (xc>0) alert(x.join(""));
+return c>0;
+}
+
+////////////////////////END OF SOLUTION FUNCTIONS////////////////////////
+
+dc=true;
+while(dc==true) {
+dc=false;
+for (j=0;j<9;j++) if (checkLine(j)) dc=true;
+for (j=0;j<9;j++) if (checkRow(j)) dc=true;
+for (k=0;k<3;k++) for (l=0;l<3;l++) if (checkGrid(k,l)) dc=true;
+for (k=0;k<9;k++) for (l=0;l<9;l++) zapCell(k,l);
+}
+
+drawDiagoduko(s);
+
+for (i=0;i<9;i++) {
+for (j=0;j<9;j++)
+document.write("<input type=\"text\" size=1 value="+(s[i][j].length>1?" ":s[i][j])+">");
+document.write("<br>");
+}
+document.write("<br>");
+
+
+</script>
+</head>
+<body>
+<button onclick="location.reload();">New Puzzle</button>
+</body>
+</html>
